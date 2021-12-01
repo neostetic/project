@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class UtilRandom extends Config {
 
-    Random random = new Random();
+    java.util.Random random = new java.util.Random();
 
     // Chance generator
     public boolean toBoolean(double chance) {

@@ -4,14 +4,25 @@ import javax.swing.*;
 
 public class WindowError {
     public String error;
+    public String title;
+
+    public WindowError() {
+        JOptionPane.showMessageDialog(null, "!Error","Something went wrong!", JOptionPane.ERROR_MESSAGE);
+    }
 
     public WindowError(String error) {
         this.error = error;
         JOptionPane.showMessageDialog(null, error,"Something went wrong!", JOptionPane.ERROR_MESSAGE);
     }
 
-    public static void main(String[] args) {
-        JOptionPane.showMessageDialog(null, null,"Something went wrong!", JOptionPane.ERROR_MESSAGE);
+    public WindowError(String error, String title) {
+        this.error = error;
+        this.title = title;
+        JOptionPane.showMessageDialog(null, error,title, JOptionPane.ERROR_MESSAGE);
+    }
+
+    public void welcomeMessage() {
+        JOptionPane.showMessageDialog(null, "Don't worry,\nYou won't get a virus :)","Something went wrong!", JOptionPane.ERROR_MESSAGE);
     }
 
 }

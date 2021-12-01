@@ -13,5 +13,6 @@ public class WindowPanel extends JPanel {
         this.setPreferredSize(new Dimension(config.window_width, config.window_height));
         this.setBackground(Color.WHITE);
         this.setDoubleBuffered(true); // Better render
+        this.setLayout(null);
     }
 }

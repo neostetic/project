@@ -2,7 +2,7 @@ package cz.polacek.game.config;
 
 public class Config {
     // Window/Screen Settings
-    public String window_title = "TheGame - v0.1";
+    public String window_title = "JUSTBUNKER";
     public boolean window_resizable = false;
     public boolean window_visible = true;
     public int window_width = 1280;
