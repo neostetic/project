@@ -6,7 +6,7 @@ public class EventLogic {
             {
                 "0_EVENT_NAME",
                 "1_TEXT_INFORMATION",
-                "2_TEXT_THROWOUT",
+                "2_TEXT_DECLINE",
                 "3_TEXT_ACCEPT_POSITIVE",
                 "4_TEXT_ACCEPT_NEGATIVE"
             },
