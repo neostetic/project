@@ -1,6 +1,19 @@
 package cz.polacek.game.engine.events;
 
+import cz.polacek.game.config.ConfigDifficulty;
+import cz.polacek.game.config.difficulties.Easy;
+import cz.polacek.game.config.difficulties.Hard;
+import cz.polacek.game.config.difficulties.Medium;
+import cz.polacek.game.view.WindowViews;
+
 public class EventLogic {
+
+    public ConfigDifficulty difficulty;
+    public WindowViews views;
+
+    public EventLogic(WindowViews views) {
+        this.views = views;
+    }
 
     public final String[][] event_text = {
             {
@@ -45,4 +58,8 @@ public class EventLogic {
     public String[][] special_event_text;
     public String[][] sickness;
 
+    public void startGame(ConfigDifficulty difficulty) {
+        this.difficulty = difficulty;
+        views.gameStart();
+    }
 }

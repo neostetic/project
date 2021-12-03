@@ -1,5 +1,7 @@
 package cz.polacek.game.view;
 
+import cz.polacek.game.config.Config;
+import cz.polacek.game.engine.events.EventLogic;
 import cz.polacek.game.utils.BufferImage;
 import cz.polacek.game.utils.LabelMouse;
 import cz.polacek.game.utils.LabelMouseTypes;
@@ -10,6 +12,7 @@ public class WindowViews {
 
     public JPanel panel;
     public LabelMouse labelMouse = new LabelMouse(WindowViews.this);
+    protected Config config = new Config();
 
     public WindowViews(JPanel panel) {
         this.panel = panel;
@@ -20,9 +23,9 @@ public class WindowViews {
     public JLabel title = new BufferImage("ui/menu/title_big.png").toLabel();
     public JLabel menuBackground = new BufferImage("ui/menu/background.png").toLabel();
     public JLabel[] buttons = {
-            new BufferImage("ui/buttons/btn_easy.png").toLabel(),
-            new BufferImage("ui/buttons/btn_medium.png").toLabel(),
-            new BufferImage("ui/buttons/btn_hard.png").toLabel(),
+            new BufferImage("ui/buttons/easy.png").toLabel(),
+            new BufferImage("ui/buttons/medium.png").toLabel(),
+            new BufferImage("ui/buttons/hard.png").toLabel(),
             new BufferImage("ui/menu/github.png").toLabel()
     };
     public JLabel notepad = new BufferImage("ui/game/notepad_blank.png").toLabel();
@@ -31,10 +34,10 @@ public class WindowViews {
     public JLabel shotgun = new BufferImage("items/shotgun.png").toLabel();
     public JLabel map = new BufferImage("items/map.png").toLabel();
     public JLabel tape = new BufferImage("items/tape.png").toLabel();
-    public JLabel medkit = new BufferImage("items/medkit_broken.png").toLabel();
+    public JLabel medkit = new BufferImage("items/medkit.png").toLabel();
     public JLabel soupBox = new BufferImage("items/soup_box.png").toLabel();
     public JLabel playerBody = new BufferImage("player/player_base.png").toLabel();
-    public JLabel playerFaceHappy = new BufferImage("player/player_face_sick.png").toLabel();
+    public JLabel playerFaceHappy = new BufferImage("player/player_face_happy.png").toLabel();
 
     public void onClickEvenest() {
         labelMouse.toUrl(buttons[3],"https://github.com/neostetic");
@@ -85,6 +88,12 @@ public class WindowViews {
         panel.add(label);
         label.setLocation(x,y);
         label.setSize(width,height);
+    }
+
+    public void addItem(JLabel label) {
+        panel.add(label);
+        label.setLocation(0,0);
+        label.setSize(config.window_width,config.window_height);
     }
 
     public void delItem(JLabel label) {

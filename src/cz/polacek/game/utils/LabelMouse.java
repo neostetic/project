@@ -1,5 +1,10 @@
 package cz.polacek.game.utils;
 
+import cz.polacek.game.config.ConfigDifficulty;
+import cz.polacek.game.config.difficulties.Easy;
+import cz.polacek.game.config.difficulties.Hard;
+import cz.polacek.game.config.difficulties.Medium;
+import cz.polacek.game.engine.events.EventLogic;
 import cz.polacek.game.view.WindowViews;
 
 import javax.swing.*;
@@ -51,15 +56,16 @@ public class LabelMouse {
         label.addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                EventLogic logic = new EventLogic(views);
                 switch(mouseTypes) {
                     case START_GAME_EASY:
-                        views.gameStart();
+                        logic.startGame(new Easy());
                         break;
                     case START_GAME_MEDIUM:
-                        views.gameStart();
+                        logic.startGame(new Medium());
                         break;
                     case START_GAME_HARD:
-                        views.gameStart();
+                        logic.startGame(new Hard());
                         break;
                     case EVENT_START:
                         break;

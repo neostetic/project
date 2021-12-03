@@ -1,6 +1,8 @@
 package cz.polacek.game.config.difficulties;
 
-public class Easy {
+import cz.polacek.game.config.ConfigDifficulty;
+
+public class Easy extends ConfigDifficulty {
 
     /*
      * player_health_sick - Sickness factor : If player_health goes bellow X, sick effect is applied
