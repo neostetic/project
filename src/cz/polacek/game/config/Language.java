@@ -7,8 +7,7 @@ public class Language {
     public Config config = new Config();
     public String start_game;
     public String[][] event_text;
-    public String day;
-    public String days = "<b>" + day + " " + config.game_daycount + "</b><br><br>";
+    public String days;
     public String htmlStart = "<html><body>";
     public String htmlEnd = "</body></html>";
 

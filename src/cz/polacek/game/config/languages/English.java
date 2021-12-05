@@ -5,7 +5,7 @@ import cz.polacek.game.config.Language;
 public class English extends Language {
 
     public English() {
-        start_game = "Welcome player. Nice to see you there.<br><br>You know, it wasn't pleasant last day when the atomic bomb exploded right after you hid. Even thought you didn't had much time to take things with you, something was already in the bunker. Anyways, it is your first day in this new home, so you don't need to do anything today. Sleep well my friend!<br><br>" +
+        start_game = "You know, it wasn't pleasant last day when the atomic bomb exploded right after you hid. Even thought you didn't had much time to take things with you, something was already in the bunker. Anyways, it is your first day in this new home, so you don't need to do anything today. Sleep well my friend!<br><br>" +
                 "YOU GAIN:<br>";
 
         event_text = new String[][]{
@@ -48,7 +48,7 @@ public class English extends Language {
                 }
         };
 
-        day = "Day";
+        days = "<b>Day " + config.game_daycount + "</b><br><br>";
     }
 
 }
