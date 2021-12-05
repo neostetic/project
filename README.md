@@ -1,8 +1,20 @@
 ## project : JUSTBUNKER (incomplete)
 <p align="center">
-<img src="https://raw.githubusercontent.com/neostetic/project/main/src/cz/polacek/game/assets/ui/menu/title_big.png" width="339">
+<img src="https://raw.githubusercontent.com/neostetic/project/main/src/cz/polacek/game/assets/ui/menu/title_big.png" width="339"><br>
+ 
+<img src="https://raw.githubusercontent.com/neostetic/project/main/src/cz/polacek/game/assets/ui/buttons/easy.png" width="120">
+<img src="https://raw.githubusercontent.com/neostetic/project/main/src/cz/polacek/game/assets/ui/buttons/medium.png" width="120">
+<img src="https://raw.githubusercontent.com/neostetic/project/main/src/cz/polacek/game/assets/ui/buttons/hard.png" width="120">
 </p>
 
+### Menu
+ - <a href="#information">Information</a>
+ - <a href="#goal-of-the-game">Goal</a>
+ - <a href="#tips-and-tricks">Tips</a>
+ - <a href="#help-and-tutorial">Help</a>
+ - <a href="#todo">TODO</a>
+<br><br>
+ 
 ### Information
  - This game is made for <a href="">School Project</a>.
  - The idea was, to make a 60 seconds clone, without <b>3D elements</b>, like walking around and collecting stuff.
@@ -45,3 +57,6 @@
     <br>
     *notepad_button_[name].png*
 </p>
+
+### TODO
+ - [ ] Update TODO list
