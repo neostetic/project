@@ -4,7 +4,6 @@ public class Item {
 
     public enum ItemState {
         HOLDING,
-        SOME,
         BROKEN,
         EMPTY
     }
@@ -35,6 +34,14 @@ public class Item {
 
     public void setState(ItemState state) {
         this.state = state;
+    }
+
+    public int getHolding() {
+        return holding;
+    }
+
+    public void setHolding(int holding) {
+        this.holding = holding;
     }
 
     public int getMax_holding() {

@@ -6,7 +6,7 @@ import javax.swing.*;
 
 public class WindowSettings {
 
-    private final Config config = new Config();
+    private Config config = new Config();
     JFrame frame;
     WindowPanel panel;
 

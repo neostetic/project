@@ -1,6 +1,5 @@
 package cz.polacek.game.utils;
 
-import cz.polacek.game.config.ConfigDifficulty;
 import cz.polacek.game.config.difficulties.Easy;
 import cz.polacek.game.config.difficulties.Hard;
 import cz.polacek.game.config.difficulties.Medium;

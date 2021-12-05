@@ -10,7 +10,7 @@ public class Window {
     protected WindowViews views = new WindowViews(panel);
 
     public Window() {
-        views.onClickEvenest();
+        views.onClickEvents();
         views.menu();
         settings.settings();
     }

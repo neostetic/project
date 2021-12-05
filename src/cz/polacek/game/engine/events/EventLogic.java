@@ -1,65 +1,101 @@
 package cz.polacek.game.engine.events;
 
-import cz.polacek.game.config.ConfigDifficulty;
-import cz.polacek.game.config.difficulties.Easy;
-import cz.polacek.game.config.difficulties.Hard;
-import cz.polacek.game.config.difficulties.Medium;
+import cz.polacek.game.config.Config;
+import cz.polacek.game.config.Difficulty;
+import cz.polacek.game.config.Language;
+import cz.polacek.game.engine.items.Item;
+import cz.polacek.game.engine.items.Items;
+import cz.polacek.game.utils.UtilRandom;
 import cz.polacek.game.view.WindowViews;
 
 public class EventLogic {
 
-    public ConfigDifficulty difficulty;
+    public Config config = new Config();
+
+    protected Language text;
+    public Difficulty difficulty;
     public WindowViews views;
+    public UtilRandom random;
+
+    /*
+        private Event[] events = {
+                new Event(text.event_text[1][1], text.event_text[1][2], text.event_text[1][3], text.event_text[1][4])
+        };
+    */
 
     public EventLogic(WindowViews views) {
         this.views = views;
     }
 
-    public final String[][] event_text = {
-            {
-                "0_EVENT_NAME",
-                "1_TEXT_INFORMATION",
-                "2_TEXT_DECLINE",
-                "3_TEXT_ACCEPT_POSITIVE",
-                "4_TEXT_ACCEPT_NEGATIVE"
-            },
-            {
-                // 1
-                "KNOCKING_01",
-                "You here knocking on door loudly. You wonder what that could be and think about opening it. But should you? Radiation maybe didn't still settle down.\n\n",
-                "Even thought you wanted so much to open it, you didn't had ball to open it. Oh well, maybe next time.\n\n",
-                "You opened the creaking door... And it was local army to come help you and play some cards. And look at that. On their way out the gave you this.\n\n" +
-                        "YOU GAIN:\n",
-                "You opened the creaking door but had no luck. A lot of mutated bugs tried to go through your doors. Luckily you beat those bugs, but unfortunately, lost something.\n" +
-                        "YOU LOST:\n"
-            },
-            {
-                // 2
-                "RADIO_01",
-                "You have been thinking about having some fun... What about radio. You didn't had so much fun with radio since you were young... At least try?\n\n",
-                "Well, even thought you wanted to have some fun... you didn't had at all. Well, maybe next time.\n\n",
-                "So, last night you've received information about an airdrop near your house. Actually it was right behind your bunker door. How lucky you are?\n" +
-                        "YOU GAIN:\n",
-                "Well, this was unexpected. They didn't play your favorite song, so you've got angry and broke some thing in your bunker.\n" +
-                        "YOU LOST:\n"
-            },
-            {
-                // 3
-                "HUNTING_01",
-                "I forgot how many days it was without eating REAL food better than this soup, or if you could call that. You've got and idea, to try hunt something outside! Will you go?\n\n",
-                "How sad... You couldn't go hunting. Maybe it is better that way, what could have happen if you go out is just a question.\n\n",
-                "Very well, you went outside and actually nothing happened. How lucky! Also, when you have been hunting, you've found some stuff... it is cool... I guess" +
-                        "YOU GAIN:\n",
-                "You have been a naughty boy today. Actually pretty bad boy. When you opened the bunker door, something flew indoor and made a mess.\n" +
-                        "YOU LOST:\n"
-            }
-    };
-
-    public String[][] special_event_text;
-    public String[][] sickness;
-
-    public void startGame(ConfigDifficulty difficulty) {
+    public void startGame(Difficulty difficulty) {
         this.difficulty = difficulty;
         views.gameStart();
     }
+
+    public void startEvent(Event event) {
+        if (event.item1 == null) {
+            if (random.toBoolean(difficulty.player_luck)) {
+                eventBoolean(event);
+            }
+        } else {
+            if (event.item1.getItem().state == Item.ItemState.HOLDING) {
+                eventBoolean(event);
+            }
+        }
+    }
+
+    private void eventBoolean(Event event) {
+        if (random.toBoolean(difficulty.player_luck)) {
+            System.out.println(event.eventAcceptPositive);
+            playerPositive();
+        } else {
+            System.out.println(event.eventAcceptNegative);
+            playerNegative();
+        }
+    }
+
+    private void playerNegative() {
+        itemLose(Items.SHOTGUN.getItem());
+        itemLose(Items.MAP.getItem());
+        itemLose(Items.TAPE.getItem());
+        itemLose(Items.MEDKIT.getItem());
+        itemLose(Items.RADIO.getItem());
+        itemLose(Items.WATER.getItem());
+        itemLose(Items.FOOD.getItem());
+    }
+
+    private void playerPositive() {
+        itemGain(Items.SHOTGUN.getItem());
+        itemGain(Items.MAP.getItem());
+        itemGain(Items.TAPE.getItem());
+        itemGain(Items.MEDKIT.getItem());
+        itemGain(Items.RADIO.getItem());
+        itemGain(Items.WATER.getItem());
+        itemGain(Items.FOOD.getItem());
+    }
+
+    public void itemLose(Item item) {
+        System.out.println("Lose: " + item.getName() + " ; " + item.getHolding());
+        if (item.getHolding() >= 1) {
+            if (!random.toBoolean(difficulty.player_luck)) {
+                item.setHolding(item.getHolding() - 1);
+                if (item.getHolding() == 0) {
+                    item.setState(Item.ItemState.BROKEN);
+                }
+            }
+        }
+        System.out.println("- STATE: " + item.getState());
+    }
+
+    public void itemGain(Item item) {
+        System.out.println("Gain: " + item.getName() + " ; " + item.getHolding());
+        if (random.toBoolean(difficulty.player_luck / config.game_luckfactor) && item.getMax_holding() < item.getHolding()) {
+            item.setHolding(item.getHolding() - 1);
+            if (item.getHolding() > 0) {
+                item.setState(Item.ItemState.HOLDING);
+            }
+        }
+        System.out.println("- " + item.getState());
+    }
+
 }

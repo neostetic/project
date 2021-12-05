@@ -10,7 +10,7 @@ public class BufferImage extends JLabel {
     public Config config = new Config();
 
     public BufferImage(String imgSrc) {
-        this.imgSrc = config.imgSrcOut + imgSrc;
+        this.imgSrc = config.srcOut + imgSrc;
     }
 
     public JLabel toLabel() {
