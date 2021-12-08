@@ -32,12 +32,16 @@
  - Also look at your character from time to time, if he will get sick, he will look sad. Events will be harder to be successful (for example, having worse luck).
  - If you don't have Food or Water, your health will slowly drown.
  
+<details>
+  <summary>Click to show Difficulty table</summary>
+
 | Difficulty    | Hunger       | Thirst       | Sick-ness Level | Luck Factor (%) |
 |---------------|--------------|--------------|-----------------|-----------------|
 | <b>Easy</b>   | every 8 days | every 5 days | bellow 40       | .55 (55%)       |
 | <b>Medium</b> | every 6 days | every 4 days | bellow 50       | .5 (50%)        |
 | <b>Hard</b>   | every 5 days | every 3 days | bellow 60       | .4 (40%)        |
 
+</details>
 <br><br>
 
 ### Help and Tutorial
