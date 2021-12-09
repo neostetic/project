@@ -1,16 +1,22 @@
 package cz.polacek.game.view;
 
 import cz.polacek.game.config.Config;
+import cz.polacek.game.config.Difficulty;
 import cz.polacek.game.config.Language;
+import cz.polacek.game.config.difficulties.Easy;
+import cz.polacek.game.config.difficulties.Hard;
+import cz.polacek.game.config.difficulties.Medium;
 import cz.polacek.game.config.languages.English;
+import cz.polacek.game.engine.events.EventLogic;
 import cz.polacek.game.engine.items.Item;
-import cz.polacek.game.engine.items.Items;
 import cz.polacek.game.utils.BufferImage;
 import cz.polacek.game.utils.LabelMouse;
 import cz.polacek.game.utils.LabelMouseTypes;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 public class WindowViews {
 
@@ -18,12 +24,17 @@ public class WindowViews {
     public LabelMouse labelMouse = new LabelMouse(WindowViews.this);
     public Language eventText = new English();
     protected Config config = new Config();
+    private EventLogic eventLogic = new EventLogic(this);
 
     public WindowViews(JPanel panel) {
         this.panel = panel;
     }
 
     public static boolean notepadSwitcher = false;
+
+    private Easy easy = new Easy();
+    private Medium medium = new Medium();
+    private Hard hard = new Hard();
 
     public JLabel title = new BufferImage("ui/menu/title_big.png").toLabel();
     public JLabel menuBackground = new BufferImage("ui/menu/background.png").toLabel();
@@ -35,8 +46,13 @@ public class WindowViews {
     };
 
     public JLabel notepad = new BufferImage("ui/game/notepad_blank.png").toLabel();
+    public JLabel notepadText = new JLabel("");
     public JLabel notepadButton = new BufferImage("ui/game/notepad_button.png").toLabel();
-    public JLabel notepadText = new JLabel(eventText.htmlStart + eventText.days + eventText.start_game + eventText.htmlEnd);
+    public JLabel[] notepadButtons = {
+            new BufferImage("ui/game/notepad_button_accept.png").toLabel(),
+            new BufferImage("ui/game/notepad_button_sleep.png").toLabel(),
+            new BufferImage("ui/game/notepad_button_decline.png").toLabel()
+    };
 
     public JLabel background = new BufferImage("items/background.png").toLabel();
     public JLabel[] shotgun = {
@@ -55,19 +71,71 @@ public class WindowViews {
             new BufferImage("items/medkit.png").toLabel(),
             new BufferImage("items/medkit_broken.png").toLabel()
     };
+
+    public JLabel[] radio = {
+            new BufferImage("items/radio.png").toLabel(),
+            new BufferImage("items/radio_broken.png").toLabel()
+    };
+
     public JLabel soupBox = new BufferImage("items/soup_box.png").toLabel();
     public JLabel playerBody = new BufferImage("player/player_base.png").toLabel();
-    public JLabel playerFaceHappy = new BufferImage("player/player_face_happy.png").toLabel();
+    public JLabel[] playerFace = {
+            new BufferImage("player/player_face_happy.png").toLabel(),
+            new BufferImage("player/player_face_sick.png").toLabel()
+    };
 
     public void onClickEvents() {
         labelMouse.toUrl(buttons[3], "https://github.com/neostetic");
-        labelMouse.onClick(buttons[0], LabelMouseTypes.START_GAME_EASY);
-        labelMouse.onClick(buttons[1], LabelMouseTypes.START_GAME_MEDIUM);
-        labelMouse.onClick(buttons[2], LabelMouseTypes.START_GAME_HARD);
+        buttons[0].addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                eventLogic.startGame(new Difficulty(easy.player_health_sick, easy.player_thirst, easy.player_hunger, easy.player_luck));
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                buttons[0].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override public void mouseReleased(MouseEvent e) {}
+            @Override public void mousePressed(MouseEvent e) {}
+            @Override public void mouseExited(MouseEvent e) {}
+        });
+        buttons[1].addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                eventLogic.startGame(new Difficulty(medium.player_health_sick, medium.player_thirst, medium.player_hunger, medium.player_luck));
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                buttons[1].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override public void mouseReleased(MouseEvent e) {}
+            @Override public void mousePressed(MouseEvent e) {}
+            @Override public void mouseExited(MouseEvent e) {}
+        });
+        buttons[2].addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                eventLogic.startGame(new Difficulty(hard.player_health_sick, hard.player_thirst, hard.player_hunger, hard.player_luck));
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                buttons[2].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override public void mouseReleased(MouseEvent e) {}
+            @Override public void mousePressed(MouseEvent e) {}
+            @Override public void mouseExited(MouseEvent e) {}
+        });
         labelMouse.onClick(notepadButton, LabelMouseTypes.NOTEPAD_SWITCH);
     }
 
     public void menu() {
+        clearScreen();
         addItem(title, 0, 200, 1280, 69);
         addItem(buttons[0], 0, 280, 1280, 47);
         addItem(buttons[1], 0, 330, 1280, 47);
@@ -78,29 +146,47 @@ public class WindowViews {
 
     public void gameStart() {
         clearScreen();
+        addItem(notepadButtons[0], 515, 484, 78, 78);
+        addItem(notepadButtons[1], 593, 484, 78, 78);
+        addItem(notepadButtons[2], 671, 484, 78, 78);
         addItem(notepadText, 437, 120, 349, 461);
         addItem(notepad, 411, 91, 459, 538);
+        notepadButtons[0].setVisible(false);
+        notepadButtons[1].setVisible(false);
+        notepadButtons[2].setVisible(false);
         notepadText.setVisible(false);
         notepadText.setVerticalAlignment(JLabel.TOP);
         notepadText.setFont(new Font(config.srcOut + config.windows_font, Font.PLAIN, 16));
         notepad.setVisible(false);
         addItem(notepadButton, 1090, 0, 76, 101);
         addItem(soupBox, 786, 360, 197, 132);
-        addFromInventory(Items.SHOTGUN, shotgun, 252, 318, 47, 202);
-        addFromInventory(Items.MAP, map, 422, 209, 179, 139);
-        addFromInventory(Items.TAPE, tape, 367, 456, 19, 12);
-        addFromInventory(Items.MEDKIT, medkit, 1021, 284, 97, 75);
+        addFromInventory(eventLogic.getPlayer().items[0], shotgun, 252, 318, 47, 202);
+        addFromInventory(eventLogic.getPlayer().items[1], map, 422, 209, 179, 139);
+        addFromInventory(eventLogic.getPlayer().items[2], tape, 367, 456, 19, 12);
+        addFromInventory(eventLogic.getPlayer().items[3], medkit, 1021, 284, 97, 75);
+        addFromInventory(eventLogic.getPlayer().items[4], radio, 1018, 492, 150, 118);
         addItem(playerBody, 588, 268, 103, 342);
-        addItem(playerFaceHappy, 618, 284, 41, 49);
+        addItem(playerFace[1], 618, 284, 41, 49);
         addItem(background, 0, 0, 1280, 720);
+    }
+
+    public void gameOver() {
+        clearScreen();
+        panel.setBackground(Color.black);
     }
 
     public void notepadSwitch() {
         if (notepadSwitcher) {
+            notepadButtons[0].setVisible(false);
+            notepadButtons[1].setVisible(false);
+            notepadButtons[2].setVisible(false);
             notepadText.setVisible(false);
             notepad.setVisible(false);
             notepadSwitcher = false;
         } else {
+            notepadButtons[0].setVisible(true);
+            notepadButtons[1].setVisible(true);
+            notepadButtons[2].setVisible(true);
             notepadText.setVisible(true);
             notepad.setVisible(true);
             notepadSwitcher = true;
@@ -110,10 +196,10 @@ public class WindowViews {
 
     /* Utils */
 
-    public void addFromInventory(Items item, JLabel[] label, int x, int y, int width, int height) {
-        if (item.getItem().state == Item.ItemState.HOLDING) {
+    public void addFromInventory(Item item, JLabel[] label, int x, int y, int width, int height) {
+        if (item.state == Item.ItemState.HOLDING) {
             addItem(label[0], x, y, width, height);
-        } else if (item.getItem().state == Item.ItemState.BROKEN) {
+        } else if (item.state == Item.ItemState.BROKEN) {
             addItem(label[1], x, y, width, height);
         }
     }

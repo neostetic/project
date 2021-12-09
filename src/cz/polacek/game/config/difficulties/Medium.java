@@ -1,14 +1,10 @@
 package cz.polacek.game.config.difficulties;
 
-import cz.polacek.game.config.Difficulty;
+public class Medium {
 
-public class Medium extends Difficulty {
-
-    public Medium() {
-        double player_health_sick = 50;
-        double player_thirst = 4;
-        double player_hunger = 6;
-        double player_luck = .5;
-    }
+    public double player_health_sick = 50;
+    public double player_thirst = 4;
+    public double player_hunger = 6;
+    public double player_luck = .45;
 
 }

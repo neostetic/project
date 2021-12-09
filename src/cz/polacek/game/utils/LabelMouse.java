@@ -1,5 +1,6 @@
 package cz.polacek.game.utils;
 
+import cz.polacek.game.config.Difficulty;
 import cz.polacek.game.config.difficulties.Easy;
 import cz.polacek.game.config.difficulties.Hard;
 import cz.polacek.game.config.difficulties.Medium;
@@ -18,6 +19,9 @@ public class LabelMouse {
 
     private boolean mousePointer;
     private WindowViews views;
+    private Easy easy = new Easy();
+    private Medium medium = new Medium();
+    private Hard hard = new Hard();
 
     public LabelMouse(WindowViews views) {
         this.views = views;
@@ -58,13 +62,13 @@ public class LabelMouse {
                 EventLogic logic = new EventLogic(views);
                 switch(mouseTypes) {
                     case START_GAME_EASY:
-                        logic.startGame(new Easy());
+                        logic.startGame(new Difficulty(easy.player_health_sick, easy.player_thirst, easy.player_hunger, easy.player_luck));
                         break;
                     case START_GAME_MEDIUM:
-                        logic.startGame(new Medium());
+                        logic.startGame(new Difficulty(medium.player_health_sick, medium.player_thirst, medium.player_hunger, medium.player_luck));
                         break;
                     case START_GAME_HARD:
-                        logic.startGame(new Hard());
+                        logic.startGame(new Difficulty(hard.player_health_sick, hard.player_thirst, hard.player_hunger, hard.player_luck));
                         break;
                     case EVENT_START:
                         break;

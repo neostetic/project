@@ -1,6 +1,6 @@
 package cz.polacek.game.engine.events;
 
-import cz.polacek.game.engine.items.Items;
+import cz.polacek.game.engine.items.Item;
 
 public class Event {
 
@@ -8,14 +8,14 @@ public class Event {
     String eventDecline;
     String eventAcceptPositive;
     String eventAcceptNegative;
-    Items item1;
+    Item item;
 
-    public Event(String eventTextInfo, String eventDecline, String eventAcceptPositive, String eventAcceptNegative, Items item1) {
+    public Event(String eventTextInfo, String eventDecline, String eventAcceptPositive, String eventAcceptNegative, Item item) {
         this.eventTextInfo = eventTextInfo;
         this.eventDecline = eventDecline;
         this.eventAcceptPositive = eventAcceptPositive;
         this.eventAcceptNegative = eventAcceptNegative;
-        this.item1 = item1;
+        this.item = item;
     }
 
     public Event(String eventTextInfo, String eventDecline, String eventAcceptPositive, String eventAcceptNegative) {
@@ -57,11 +57,11 @@ public class Event {
         this.eventAcceptNegative = eventAcceptNegative;
     }
 
-    public Items getItem1() {
-        return item1;
+    public Item getItem() {
+        return item;
     }
 
-    public void setItem1(Items item1) {
-        this.item1 = item1;
+    public void setItem(Item item) {
+        this.item = item;
     }
 }

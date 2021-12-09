@@ -1,7 +1,5 @@
 package cz.polacek.game.config;
 
-import cz.polacek.game.config.Config;
-
 public class Language {
 
     public Config config = new Config();
@@ -10,6 +8,8 @@ public class Language {
     public String days;
     public String htmlStart = "<html><body>";
     public String htmlEnd = "</body></html>";
+    public String gain = "";
+    public String lose = "";
 
     public String constructText(String[] strings) {
         StringBuilder string = null;

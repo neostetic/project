@@ -4,9 +4,11 @@ import cz.polacek.game.config.Config;
 import cz.polacek.game.config.Difficulty;
 import cz.polacek.game.config.Language;
 import cz.polacek.game.engine.items.Item;
-import cz.polacek.game.engine.items.Items;
+import cz.polacek.game.engine.player.Player;
 import cz.polacek.game.utils.UtilRandom;
 import cz.polacek.game.view.WindowViews;
+
+import java.util.Random;
 
 public class EventLogic {
 
@@ -16,6 +18,12 @@ public class EventLogic {
     public Difficulty difficulty;
     public WindowViews views;
     public UtilRandom random;
+
+    public Player player;
+
+    public Player getPlayer() {
+        return player;
+    }
 
     /*
         private Event[] events = {
@@ -29,19 +37,23 @@ public class EventLogic {
 
     public void startGame(Difficulty difficulty) {
         this.difficulty = difficulty;
+        player = new Player(config.player_name, difficulty, difficulty.player_health_sick, difficulty.player_thirst, difficulty.player_hunger, difficulty.player_luck);
+        playerPositive();
+        notepadItemGain();
         views.gameStart();
     }
 
     public void startEvent(Event event) {
-        if (event.item1 == null) {
+        if (event.item == null) {
             if (random.toBoolean(difficulty.player_luck)) {
                 eventBoolean(event);
             }
         } else {
-            if (event.item1.getItem().state == Item.ItemState.HOLDING) {
+            if (event.item.state == Item.ItemState.HOLDING) {
                 eventBoolean(event);
             }
         }
+        config.game_daycount++;
     }
 
     private void eventBoolean(Event event) {
@@ -54,48 +66,54 @@ public class EventLogic {
         }
     }
 
-    private void playerNegative() {
-        itemLose(Items.SHOTGUN.getItem());
-        itemLose(Items.MAP.getItem());
-        itemLose(Items.TAPE.getItem());
-        itemLose(Items.MEDKIT.getItem());
-        itemLose(Items.RADIO.getItem());
-        itemLose(Items.WATER.getItem());
-        itemLose(Items.FOOD.getItem());
+    public void playerNegative() {
+        itemLose(player.items[0]);
+        itemLose(player.items[1]);
+        itemLose(player.items[2]);
+        itemLose(player.items[3]);
+        itemLose(player.items[4]);
+        itemLose(player.items[5]);
+        itemLose(player.items[6]);
     }
 
-    private void playerPositive() {
-        itemGain(Items.SHOTGUN.getItem());
-        itemGain(Items.MAP.getItem());
-        itemGain(Items.TAPE.getItem());
-        itemGain(Items.MEDKIT.getItem());
-        itemGain(Items.RADIO.getItem());
-        itemGain(Items.WATER.getItem());
-        itemGain(Items.FOOD.getItem());
+    public void playerPositive() {
+        itemGain(player.items[0]);
+        itemGain(player.items[1]);
+        itemGain(player.items[2]);
+        itemGain(player.items[3]);
+        itemGain(player.items[4]);
+        itemGain(player.items[5]);
+        itemGain(player.items[6]);
     }
 
     public void itemLose(Item item) {
-        System.out.println("Lose: " + item.getName() + " ; " + item.getHolding());
-        if (item.getHolding() >= 1) {
-            if (!random.toBoolean(difficulty.player_luck)) {
-                item.setHolding(item.getHolding() - 1);
-                if (item.getHolding() == 0) {
-                    item.setState(Item.ItemState.BROKEN);
-                }
+        if (item.getHolding() > 0) {
+            Random ran = new Random();
+            if (ran.nextInt(100) > player.getLuck() * 100) {
+                item.setState(Item.ItemState.BROKEN);
+                System.out.println("LOSE: -1 " + item.name);
             }
         }
-        System.out.println("- STATE: " + item.getState());
     }
 
     public void itemGain(Item item) {
-        System.out.println("Gain: " + item.getName() + " ; " + item.getHolding());
-        if (random.toBoolean(difficulty.player_luck / config.game_luckfactor) && item.getMax_holding() < item.getHolding()) {
-            item.setHolding(item.getHolding() - 1);
-            if (item.getHolding() > 0) {
+        if (item.getHolding() < item.getMax_holding()) {
+            Random ran = new Random();
+            if (ran.nextInt(100) < player.getLuck() * 100) {
                 item.setState(Item.ItemState.HOLDING);
+                item.setHolding(item.getHolding() + 1);
+                System.out.println("GAIN: +1 " + item.name);
+                views.eventText.gain = views.eventText.gain + " +1 " + item.name + "<br>";
             }
         }
-        System.out.println("- " + item.getState());
+    }
+
+    public void notepadItemGain() {
+        views.notepadText.setText(views.eventText.htmlStart + views.eventText.days + views.eventText.start_game + views.eventText.gain + views.eventText.htmlEnd);
+    }
+
+    public void notepadClear() {
+        views.notepadText.setText("");
     }
 
 }
