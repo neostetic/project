@@ -16,6 +16,7 @@ public class Player {
     private double hunger;
     private double luck;
     private double health = 100;
+    private int day_count = config.game_daycount;
 
     public Item[] items = {
             Items.SHOTGUN.getItem(),
@@ -90,5 +91,13 @@ public class Player {
 
     public void setHealth(double health) {
         this.health = health;
+    }
+
+    public int getDay_count() {
+        return day_count;
+    }
+
+    public void setDay_count(int day_count) {
+        this.day_count = day_count;
     }
 }

@@ -78,11 +78,15 @@ public class WindowViews {
     };
 
     public JLabel soupBox = new BufferImage("items/soup_box.png").toLabel();
+    public JLabel soupBoxInfo = new JLabel("");
     public JLabel playerBody = new BufferImage("player/player_base.png").toLabel();
     public JLabel[] playerFace = {
             new BufferImage("player/player_face_happy.png").toLabel(),
             new BufferImage("player/player_face_sick.png").toLabel()
     };
+
+    public JLabel gameover = new BufferImage("ui/menu/gameover.png").toLabel();
+    public JLabel survived = new BufferImage("ui/menu/survived.png").toLabel();
 
     public void onClickEvents() {
         labelMouse.toUrl(buttons[3], "https://github.com/neostetic");
@@ -132,6 +136,21 @@ public class WindowViews {
             @Override public void mouseExited(MouseEvent e) {}
         });
         labelMouse.onClick(notepadButton, LabelMouseTypes.NOTEPAD_SWITCH);
+        notepadButtons[1].addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                gameOver();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                notepadButtons[1].setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override public void mouseReleased(MouseEvent e) {}
+            @Override public void mousePressed(MouseEvent e) {}
+            @Override public void mouseExited(MouseEvent e) {}
+        });
     }
 
     public void menu() {
@@ -146,6 +165,7 @@ public class WindowViews {
 
     public void gameStart() {
         clearScreen();
+        panel.setBackground(Color.white);
         addItem(notepadButtons[0], 515, 484, 78, 78);
         addItem(notepadButtons[1], 593, 484, 78, 78);
         addItem(notepadButtons[2], 671, 484, 78, 78);
@@ -156,9 +176,13 @@ public class WindowViews {
         notepadButtons[2].setVisible(false);
         notepadText.setVisible(false);
         notepadText.setVerticalAlignment(JLabel.TOP);
-        notepadText.setFont(new Font(config.srcOut + config.windows_font, Font.PLAIN, 16));
+        notepadText.setFont(new Font(config.srcOut + config.windows_font, Font.PLAIN, 14));
         notepad.setVisible(false);
         addItem(notepadButton, 1090, 0, 76, 101);
+        addItem(soupBoxInfo, 836, 350, 100, 32);
+        soupBoxInfo.setText(
+                eventText.htmlStart + eventLogic.getPlayer().items[5].getHolding() + " WATER<br>" + eventLogic.getPlayer().items[6].getHolding() + " FOOD" + eventText.htmlEnd
+        );
         addItem(soupBox, 786, 360, 197, 132);
         addFromInventory(eventLogic.getPlayer().items[0], shotgun, 252, 318, 47, 202);
         addFromInventory(eventLogic.getPlayer().items[1], map, 422, 209, 179, 139);
@@ -166,13 +190,47 @@ public class WindowViews {
         addFromInventory(eventLogic.getPlayer().items[3], medkit, 1021, 284, 97, 75);
         addFromInventory(eventLogic.getPlayer().items[4], radio, 1018, 492, 150, 118);
         addItem(playerBody, 588, 268, 103, 342);
-        addItem(playerFace[1], 618, 284, 41, 49);
+        addItem(playerFace[faceSwich()], 618, 284, 41, 49);
         addItem(background, 0, 0, 1280, 720);
     }
 
     public void gameOver() {
         clearScreen();
+        JLabel gameOverText = new JLabel("You survived for " + eventLogic.getPlayer().getDay_count() + " days", SwingConstants.CENTER);
+        addItem(gameOverText);
+        addItem(gameover);
         panel.setBackground(Color.black);
+        gameOverText.setFont(new Font(config.srcOut + config.windows_font, Font.PLAIN, 24));
+        gameOverText.setForeground(Color.white);
+        gameOverText.addMouseListener(new MouseListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                menu();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                gameOverText.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+            }
+
+            @Override public void mouseReleased(MouseEvent e) {}
+            @Override public void mousePressed(MouseEvent e) {}
+            @Override public void mouseExited(MouseEvent e) {}
+        });
+
+    }
+
+    public void gameSurvived() {
+        clearScreen();
+        addItem(survived);
+        panel.setBackground(Color.black);
+    }
+
+    public int faceSwich() {
+        if (eventLogic.getPlayer().getHealth() < eventLogic.getPlayer().getHealth_sick()) {
+            return 1;
+        }
+        return 0;
     }
 
     public void notepadSwitch() {
@@ -192,6 +250,7 @@ public class WindowViews {
             notepadSwitcher = true;
         }
     }
+
 
 
     /* Utils */

@@ -53,7 +53,7 @@ public class EventLogic {
                 eventBoolean(event);
             }
         }
-        config.game_daycount++;
+        player.setDay_count(player.getDay_count() + 1);
     }
 
     private void eventBoolean(Event event) {
