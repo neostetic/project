@@ -1,10 +1,14 @@
 package cz.polacek.game.config.difficulties;
 
-public class Easy {
+import cz.polacek.game.config.Difficulty;
 
-    public double player_health_sick = 40;
-    public double player_thirst = 6;
-    public double player_hunger = 8;
-    public double player_luck = .5;
+public class Easy extends Difficulty {
+
+    public Easy() {
+        player_health_sick = 40;
+        player_thirst = 6;
+        player_hunger = 8;
+        player_luck = .5;
+    }
 
 }

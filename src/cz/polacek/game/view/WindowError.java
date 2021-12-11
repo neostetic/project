@@ -21,8 +21,4 @@ public class WindowError {
         JOptionPane.showMessageDialog(null, error,title, JOptionPane.ERROR_MESSAGE);
     }
 
-    public void welcomeMessage() {
-        JOptionPane.showMessageDialog(null, "Don't worry,\nYou won't get a virus :)","Something went wrong!", JOptionPane.ERROR_MESSAGE);
-    }
-
 }

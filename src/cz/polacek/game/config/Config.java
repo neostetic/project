@@ -8,7 +8,6 @@ public class Config {
     public boolean window_visible = true;
     public int window_width = 1280;
     public int window_height = 720;
-    public int window_aiscale = 3; // Asset Images Scale factor
     public String windows_font = "font/DisposableDroidBB.ttf";
 
     // Player Settings
@@ -19,7 +18,7 @@ public class Config {
 
     // Game Settings
     public int game_daycount = 0;
-    public double game_luckfactor = 1.1; // Item loose factor : difficulty.player_luck / config.game_luckfactor;
+    public int game_max_damage = 15;
 
     // Utils Settings
     public String srcOut = "src/cz/polacek/game/assets/"; // I just wanted to have smaller Image Sources

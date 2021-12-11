@@ -15,7 +15,7 @@ public class Player {
     private double thirst;
     private double hunger;
     private double luck;
-    private double health = 100;
+    private double health = config.player_health;
     private int day_count = config.game_daycount;
 
     public Item[] items = {

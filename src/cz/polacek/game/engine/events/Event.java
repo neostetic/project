@@ -10,12 +10,11 @@ public class Event {
     String eventAcceptNegative;
     Item item;
 
-    public Event(String eventTextInfo, String eventDecline, String eventAcceptPositive, String eventAcceptNegative, Item item) {
-        this.eventTextInfo = eventTextInfo;
-        this.eventDecline = eventDecline;
-        this.eventAcceptPositive = eventAcceptPositive;
-        this.eventAcceptNegative = eventAcceptNegative;
-        this.item = item;
+    public Event() {
+        this.eventTextInfo = "";
+        this.eventDecline = "";
+        this.eventAcceptPositive = "";
+        this.eventAcceptNegative = "";
     }
 
     public Event(String eventTextInfo, String eventDecline, String eventAcceptPositive, String eventAcceptNegative) {
@@ -23,6 +22,14 @@ public class Event {
         this.eventDecline = eventDecline;
         this.eventAcceptPositive = eventAcceptPositive;
         this.eventAcceptNegative = eventAcceptNegative;
+    }
+
+    public Event(String eventTextInfo, String eventDecline, String eventAcceptPositive, String eventAcceptNegative, Item item) {
+        this.eventTextInfo = eventTextInfo;
+        this.eventDecline = eventDecline;
+        this.eventAcceptPositive = eventAcceptPositive;
+        this.eventAcceptNegative = eventAcceptNegative;
+        this.item = item;
     }
 
     public String getEventTextInfo() {
