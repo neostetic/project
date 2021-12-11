@@ -99,7 +99,7 @@ public class EventLogic {
             return common_events[ran.nextInt(common_events.length)];
         }
     }
-    // fix fix fix
+    // fix fix fix pls
 
     public void playerEffect(Boolean effect) {
         if (effect) {
