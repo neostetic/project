@@ -33,7 +33,8 @@
  - If you don't have Food or Water, your health will slowly drown. And don't get scarred if your Water or Food will sometimes be used by the player!
  
 <details>
-  <summary>Click to show Difficulty table</summary>
+  <summary><b>Click to show Difficulty table<b></summary>
+   <br>
 
 | Difficulty    | Hunger       | Thirst       | Sick-ness Level | Luck Factor (%) |
 |---------------|--------------|--------------|-----------------|-----------------|
@@ -42,7 +43,7 @@
 | <b>Hard</b>   | every 5 days | every 3 days | bellow 60       | .4 (40%)        |
 
 </details>
-<br><br>
+   <br>
 
 ### Help and Tutorial
  - To start the game, choose a Difficulty, game will might freeze for a moment.
@@ -63,7 +64,8 @@
 </p>
 
 ### TODO
- - [ ] Make working restart
- - [ ] Make Saving High-Scores
- - [ ] Make Naming character (you will feel attached to him bit more)
- - [ ] Make working sick-level
+ - [ ] Working Restart
+ - [ ] Saving High-Scores
+ - [ ] Naming Character (you will feel attached to him bit more)
+ - [ ] Working Sick-Level
+ - [ ] (maybe) Sound Design
