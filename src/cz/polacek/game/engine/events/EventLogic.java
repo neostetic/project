@@ -19,22 +19,33 @@ public class EventLogic {
     public Views views;
     public Random ran = new Random();
 
-    public Player player;
 
+    public Player player;
     public Player getPlayer() {
         return player;
     }
 
+
     private Event[] common_events = {
-            new Event(text.event_text[0][1], text.event_text[0][2], text.event_text[0][3], text.event_text[0][4])
+            new Event(text.event_text[1][1], text.event_text[1][2], text.event_text[1][3], text.event_text[1][4]),
+            new Event(text.event_text[2][1], text.event_text[2][2], text.event_text[2][3], text.event_text[2][4]),
+            new Event(text.event_text[3][1], text.event_text[3][2], text.event_text[3][3], text.event_text[3][4]),
+            new Event(text.event_text[4][1], text.event_text[4][2], text.event_text[4][3], text.event_text[4][4]),
+            new Event(text.event_text[5][1], text.event_text[5][2], text.event_text[5][3], text.event_text[5][4]),
+            new Event(text.event_text[6][1], text.event_text[6][2], text.event_text[6][3], text.event_text[6][4])
     };
-    private Event[] special_events = {
-            new Event(text.event_text[0][1], text.event_text[0][2], text.event_text[0][3], text.event_text[0][4])
-    };
-    private Event fix_event = new Event(text.event_text[0][1], text.event_text[0][2], text.event_text[0][3], text.event_text[0][4]);
+    private Event fix_event = new Event(text.event_fix_text[0][1], text.event_fix_text[0][2], text.event_fix_text[0][3], text.event_fix_text[0][4]);
 
     private Event latest_event;
     private Event last_event = new Event();
+
+    private enum event {
+        FIX_EVENT,
+        SPECIAL_EVENT,
+        COMMON_EVENT;
+    };
+
+    public event last_event_type;
 
     public EventLogic(Views views) {
         this.views = views;
@@ -53,53 +64,87 @@ public class EventLogic {
         views.gameScreen();
     }
 
-
-    // This is broken! FIX FIX FIX
     public void startEvent(Boolean playerChoice) {
-        boolean isTrue = ran.nextInt(2) == 1;
+        boolean isTrue = ran.nextInt(100) < player.getDifficulty().player_luck * 100;
         player.setDay_count(player.getDay_count() + 1);
         views.eventText.itemUpdate = "";
 
-        if (playerChoice) {
-            playerEffect(isTrue);
+        if (player.getDay_count() == 0) {
+            notepadWrite();
+        } else {
+            if (player.getDay_count() != 1) {
+                if (last_event_type == event.COMMON_EVENT) {
+                    if (playerChoice) {
+                        playerEffect(isTrue);
+                    }
+                } else if (last_event_type == event.FIX_EVENT) {
+                    if (playerChoice) {
+                        isTrue = true;
+                        itemGain(player.items[whichItemBroken()], true);
+                    }
+                } else if (last_event_type == event.SPECIAL_EVENT) {
+                    if (playerChoice) {
+                        playerEffect(isTrue);
+                        playerEffect(isTrue);
+                    }
+                }
+            }
+
+            latest_event = chooseEvent();
+            notepadWrite(playerChoice, isTrue);
+            last_event = latest_event;
+
         }
 
-        latest_event = chooseEvent();
-        notepadWrite(playerChoice, isTrue);
-        last_event = latest_event;
+        if (player.getDay_count() % player.getDifficulty().player_hunger == 0) {
+            System.out.print("HUNGER: ");
+            if (player.items[6].getHolding() > 0) {
+                player.items[6].setHolding(player.items[6].getHolding() - 1);
+                System.out.println("0 (" + player.getHealth() + ")");
+            } else {
+                int dmg = ran.nextInt(15) + 5;
+                player.setHealth(player.getHealth() - dmg);
+                System.out.println("-" + dmg + " (" + player.getHealth() + ")");
+            }
+        }
 
-        if (player.getHealth_sick() <= 0) {
+        if (player.getDay_count() % player.getDifficulty().player_thirst == 0) {
+            System.out.print("THIRST: ");
+            if (player.items[5].getHolding() > 0) {
+                player.items[5].setHolding(player.items[5].getHolding() - 1);
+                System.out.println("0 (" + player.getHealth() + ")");
+            } else {
+                int dmg = ran.nextInt(15) + 5;
+                player.setHealth(player.getHealth() - dmg);
+                System.out.println("-" + dmg + " (" + player.getHealth() + ")");
+            }
+        }
+
+        if (player.getHealth() <= 0) {
             views.gameOver();
         } else {
             views.gameSurvived();
         }
-    }
 
-    public void starEventFromZero() {
-        player.setDay_count(player.getDay_count() + 1);
-        notepadWrite();
-        if (player.getHealth_sick() <= 0) {
-            views.gameOver();
-        } else {
-            views.gameSurvived();
-        }
     }
 
     public Event chooseEvent() {
         if (ran.nextInt(2) == 0) {
             if (ran.nextInt(2) == 0 && player.items[2].getState() == Item.ItemState.HOLDING && doYouHave(Item.ItemState.BROKEN)) {
                 System.out.println("EVENT: Fix Event");
+                last_event_type = event.FIX_EVENT;
                 return fix_event;
             } else {
                 System.out.println("EVENT: Special Event");
-                return special_events[ran.nextInt(special_events.length)];
+                last_event_type = event.SPECIAL_EVENT;
+                return common_events[ran.nextInt(common_events.length)];
             }
         } else {
             System.out.println("EVENT: Common Event");
+            last_event_type = event.COMMON_EVENT;
             return common_events[ran.nextInt(common_events.length)];
         }
     }
-    // fix fix fix pls
 
     public void playerEffect(Boolean effect) {
         if (effect) {
@@ -133,7 +178,11 @@ public class EventLogic {
     public void itemLose(Item item) {
         if (item.getHolding() > 0) {
             if (ran.nextInt(100) > player.getLuck() * 100) {
-                item.setState(Item.ItemState.BROKEN);
+                if (item.getMax_holding() > 1) {
+                    item.setHolding(item.getHolding() - 1);
+                } else {
+                    item.setState(Item.ItemState.BROKEN);
+                }
                 System.out.println("LOSE: -1 " + item.name);
                 views.eventText.itemUpdate = views.eventText.itemUpdate + " -1 " + item.name + "<br>";
             }
@@ -151,6 +200,15 @@ public class EventLogic {
         }
     }
 
+    public void itemGain(Item item, boolean skipRandom) {
+        if (item.getHolding() < item.getMax_holding()) {
+            item.setState(Item.ItemState.HOLDING);
+            item.setHolding(item.getHolding() + 1);
+            System.out.println("GAIN: +1 " + item.name);
+            views.eventText.itemUpdate = views.eventText.itemUpdate + " +1 " + item.name + "<br>";
+        }
+    }
+
     public boolean doYouHave(Item.ItemState state) {
         for (int i = 0; i < player.items.length; i++) {
             if (player.items[i].getState() == state) {
@@ -158,6 +216,17 @@ public class EventLogic {
             }
         }
         return false;
+    }
+
+    public int whichItemBroken() {
+        for (int i = 0; i < player.items.length; i++) {
+            if (player.items[i].getState() == Item.ItemState.BROKEN) {
+                System.out.println(" - " + player.items[i].name);
+                return i;
+            }
+        }
+        System.out.println(" - ERROR = Default: 0");
+        return 0;
     }
 
     public void notepadWrite() {

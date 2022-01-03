@@ -24,21 +24,21 @@
 
 ### Goal of the Game
  - Your goal is to survive for as long as possible, that means this game is practically endless.
- - Every day you will get objective to complete that you don't have to complete at all.
+ - Every day you will get objective to complete that you don't need to complete.
 <br><br>
 
 ### Tips and Tricks
  - If you hover over Soup 'n' Water box, you can see how many Water and Food you have. The character eats and drinks based on difficulty.
  - Also look at your character from time to time, if he will get sick, he will look sad. Events will be harder to be successful (for example, having worse luck).
- - If you don't have Food or Water, your health will slowly drown.
+ - If you don't have Food or Water, your health will slowly drown. And don't get scarred if your Water or Food will sometimes be used by the player!
  
 <details>
   <summary>Click to show Difficulty table</summary>
 
 | Difficulty    | Hunger       | Thirst       | Sick-ness Level | Luck Factor (%) |
 |---------------|--------------|--------------|-----------------|-----------------|
-| <b>Easy</b>   | every 8 days | every 5 days | bellow 40       | .55 (55%)       |
-| <b>Medium</b> | every 6 days | every 4 days | bellow 50       | .5 (50%)        |
+| <b>Easy</b>   | every 8 days | every 6 days | bellow 40       | .5 (50%)        |
+| <b>Medium</b> | every 6 days | every 4 days | bellow 50       | .45 (45%)       |
 | <b>Hard</b>   | every 5 days | every 3 days | bellow 60       | .4 (40%)        |
 
 </details>
@@ -63,4 +63,7 @@
 </p>
 
 ### TODO
- - [ ] Update TODO list
+ - [ ] Make working restart
+ - [ ] Make Saving High-Scores
+ - [ ] Make Naming character (you will feel attached to him bit more)
+ - [ ] Make working sick-level

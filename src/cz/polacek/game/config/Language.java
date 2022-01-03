@@ -5,6 +5,7 @@ public class Language {
     public Config config = new Config();
     public String start_game;
     public String[][] event_text;
+    public String[][] event_fix_text;
     public String day_start = "<b>";
     public String day_end = "</b><br><br>";
     public String day = "</b><br><br>";

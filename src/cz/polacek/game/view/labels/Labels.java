@@ -143,7 +143,7 @@ public class Labels {
         notepadButtons[1].addMouseListener(new MouseListener() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                logic.starEventFromZero();
+                logic.startEvent(true);
             }
 
             @Override
